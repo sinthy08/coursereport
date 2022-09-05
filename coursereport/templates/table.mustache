@@ -1,0 +1,109 @@
+{{!
+        This file is part of Moodle - http://moodle.org/
+
+        Moodle is free software: you can redistribute it and/or modify
+        it under the terms of the GNU General Public License as published by
+        the Free Software Foundation, either version 3 of the License, or
+        (at your option) any later version.
+
+        Moodle is distributed in the hope that it will be useful,
+        but WITHOUT ANY WARRANTY; without even the implied warranty of
+        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+        GNU General Public License for more details.
+
+        You should have received a copy of the GNU General Public License
+        along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+        }}
+{{!
+@template local_guestinfo/table
+
+
+Example context (json):
+{
+
+}
+}}
+
+<link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet"/>
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.flash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.print.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#report').DataTable({
+            dom: 'Bfrtip',
+            language: {
+                "decimal":        "",
+                "emptyTable":     "{{#str}} emptyTable, local_coursereport {{/str}}",
+                "info":           "{{#str}} showing, local_coursereport {{/str}} _START_ {{#str}} to, local_coursereport {{/str}} _END_ {{#str}} of, local_coursereport {{/str}} _TOTAL_ {{#str}} entries, local_coursereport {{/str}}",
+                "infoEmpty":      "{{#str}} showing, local_coursereport {{/str}} 0 {{#str}} to, local_coursereport {{/str}} 0 {{#str}} of, local_coursereport {{/str}} 0 {{#str}} entries, local_coursereport {{/str}}",
+                "infoFiltered":   "({{#str}} filtered, local_coursereport {{/str}} {{#str}} from, local_coursereport {{/str}} _MAX_ {{#str}} total_entries, local_coursereport {{/str}})",
+                "infoPostFix":    "",
+                "thousands":      ",",
+                "lengthMenu":     "{{#str}} show, local_coursereport {{/str}} _MENU_ {{#str}} entries, local_coursereport {{/str}}",
+                "loadingRecords": "{{#str}} loading, local_coursereport {{/str}}...",
+                "processing":     "",
+                "search":         "{{#str}} search, local_coursereport {{/str}}:",
+                "zeroRecords":    "{{#str}} zeroRecords, local_coursereport {{/str}}",
+                "paginate": {
+                    "previous": "{{#str}} previous, local_coursereport {{/str}}",
+                    "next": "{{#str}} next, local_coursereport {{/str}}"
+                },
+                "buttons": {
+                    "csv": "{{#str}} csv, local_coursereport {{/str}}",
+                    "excel": "{{#str}} excel, local_coursereport {{/str}}",
+                    "pdf": "{{#str}} pdf, local_coursereport {{/str}}"
+                }
+            },
+            buttons: [
+                {
+                    extend: 'csv',
+                    className: 'btn btn-primary',
+                    title: '{{course_name}}'
+                },
+                {
+                    extend: 'excel',
+                    className: 'btn btn-primary',
+                    title: '{{course_name}}'
+                },
+                {
+                    extend: 'pdf',
+                    className: 'btn btn-primary',
+                    title: '{{course_name}}'
+                }
+            ],
+            "pageLength": 20
+
+        });
+    });
+
+
+</script>
+<table class="flexible table table-striped reportlog  generalbox table-sm" id="report" style="border: 2px solid {{border}}">
+    <thead style="background-color: {{headercolor}}">
+        <tr style="border: 1px solid {{border}}">
+            <th scope="col" class="text-center">{{business_unit_label}}</th>
+            <th scope="col" class="text-center">{{passing_rate_label}}</th>
+            <th scope="col" class="text-center">{{progress_rate_label}}</th>
+            <th scope="col" class="text-center">{{completion_duration_label}}</th>
+        </tr>
+    </thead>
+    <hr>
+    <tbody style="background-color: {{oddtuple}}">
+        {{#guest_data}}
+            <tr>
+                <td class="text-left">{{business_unit}}</td>
+                <td class="text-center">{{passing_rate}}</td>
+                <td class="text-center">{{process_rate}}</td>
+                <td class="text-center">{{completetion_duration}}</td>
+            </tr>
+        {{/guest_data}}
+    </tbody>
+</table>
